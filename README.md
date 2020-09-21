@@ -2,7 +2,7 @@
 Backup MySQL &amp; MongoDB | Bash Shell Script | Email Reports
 
 <p align="center">
-<img src="./images/database-backup.svg" width="200">
+    <img src="./images/database-backup.svg" width="200">
 </p>
 
 ## Terminology Used
@@ -10,11 +10,12 @@ Backup MySQL &amp; MongoDB | Bash Shell Script | Email Reports
 
 ## Prerequisites
 - SSH Key Access to Remote Server. [How to setup?](#setup-ssh-key)
-- Sendgrid Account (Optional) -- Incase if you want to turn on reports emailing.
+- [Sendgrid](https://signup.sendgrid.com/) Account (Optional) -- Incase if you want to turn on reports emailing.
 
+# Setup Instructions
 <div id="setup-ssh-key"/>
 
-## Setting up SSH Key
+### Setting up SSH Key
 Make sure to follow the below steps while creating SSH Keys and using them.
 Login with username specified in Github Secrets. Generate a RSA Key-Pair:
 
@@ -35,41 +36,41 @@ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 clip < ~/.ssh/id_rsa
 ```
 
-## Test a Connection by supplying downloaded private key
+### Test a Connection by supplying downloaded private key
 ```
 ssh -i ~/.ssh/id_rsa user@newserver
 ```
 
-## Update the `PKEY` variable in backup.sh for private key location
+### Update the `PKEY` variable in backup.sh for private key location
 ```bash
 PKEY=id_rsa
 to
 PKEY=/location_of_your_privatekey
 ```
 
-## Create a conf file using `.example.conf` & Fill up the conf file.
+### Create a conf file using `.example.conf` & Fill up the conf file.
 Note: Filename should start with `.` && the positions of variable should stay same refer `backup.sh` file
 
 ```bash
 mv .example.conf .prod_server.conf
 ```
 
-## Update the `SENDGRID_API_KEY` if you want to turn on backup reports emailing. (Optional)
+### Update the `SENDGRID_API_KEY` if you want to turn on backup reports emailing. (Optional)
 ```
 SENDGRID_API_KEY=""
 to
 SENDGRID_API_KEY="your-sendgrid-api-key"
 ```
 
-## Test a Backup Script
+### Test a Backup Script
 ```bash
 sh backup.sh
 ```
 If all goes well, set it up on cron.
 
-## Set it up on Cron
+### Set it up on Cron
 ```
-0 10 * * 1 cd /to/location/of/script && sh backup.sh | tee reports.txt
+0 0 * * * cd /to/location/of/script && sh backup.sh | tee reports.txt # Every Night at Midnight
 ```
 Cron will do remaining..
 
